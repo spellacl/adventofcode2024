@@ -14,31 +14,59 @@ int main(int argc, char * argv[])
         std::istringstream iss(line);
         std::string value;
 
-        bool increasing = true;
-        bool decreasing = true;
-        bool adjacent_123 = true;
-
-        std::getline(iss, value, ' ');
-        int last_value = std::stoi(value);
-
-        bool safe = true;
+        std::vector<int> levels;
         while(std::getline(iss, value, ' '))
         {
-            int this_value = std::stoi(value);
-            increasing = increasing & (last_value < this_value);
-            decreasing = decreasing & (last_value > this_value);
+            levels.push_back(std::stoi(value));
+        }
 
-            int difference = std::abs(this_value - last_value);
-            adjacent_123 = difference >= 1 && difference <= 3;
+        auto notSafe = [](int first, int second, bool &increasing, bool &decreasing)
+            {
+                increasing = increasing & (first < second);
+                decreasing = decreasing & (first > second);
+
+                int difference = std::abs(first - second);
+                bool adjacent_123 = difference >= 1 && difference <= 3;
             
-            if( (!increasing && !decreasing) || !adjacent_123)
+                return (!increasing && !decreasing) || !adjacent_123;
+            };
+
+        bool safe = true;
+        bool increasing = true;
+        bool decreasing = true;
+
+        // part 1
+        for(auto cit = levels.cbegin()+1; cit != levels.cend(); cit++)
+        {
+            if(notSafe( *(cit-1), *(cit), increasing, decreasing))
             {
                 safe = false;
                 break;
             }
-            last_value = this_value;
         }
         if(safe) answer++;
+
+        safe = true;
+        increasing = true; decreasing = true;
+        bool skipped = false;
+        // a b c
+        //   b c d
+        for(auto cit = levels.cbegin()+2; cit != levels.cend(); cit++)
+        {
+            bool tmp_inreasing = increasing;
+            bool tmp_decreaing = decreasing;
+            bool firstNotSafe = notSafe(*(cit-2), *(cit-1), tmp_inreasing, tmp_decreaing);
+
+            tmp_inreasing = increasing;
+            tmp_decreaing = decreasing;
+            bool secondNotSafe = notSafe(*(cit-1), *(cit), tmp_inreasing, tmp_decreaing);
+
+            if(!
+            
+            tmp_inreasing = increasing;
+            tmp_decreaing = decreasing;
+            bool secondNotSafe = notSafe(*(cit-2), *(cit), tmp_inreasing, tmp_decreaing);
+        }
     }
     std::cout << "answer " << answer << std::endl;
 

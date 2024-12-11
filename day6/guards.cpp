@@ -39,7 +39,7 @@ int main(int argc, char * argv[])
                 && pos.second >=0 && pos.second < gW;
         };
 
-    visited.at(current.first * gW + current.second) = true;
+/*    visited.at(current.first * gW + current.second) = true;
     std::pair<int, int> nextSpot = current + directions.at(dirInd);
     while(inBounds(nextSpot))
     {
@@ -51,9 +51,19 @@ int main(int argc, char * argv[])
 
         nextSpot = current + directions.at(dirInd);
     }
-
     answer = std::count(visited.begin(), visited.end(),
                         [](bool x){ return x; });
+*/
+    std::pair<int, int> guard = current;
+    
+    std::vector<std::pair<int, int>> newGridCreator;    
+    
+    // Run through grids
+        int dirInd = 0;
+        current = guard + directions.at(dirInd);
+        while()
+        
+
     std::cout << "answer " << answer << std::endl;
 
     return 0;
